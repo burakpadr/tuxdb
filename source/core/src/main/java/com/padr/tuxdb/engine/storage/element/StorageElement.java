@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public abstract class StorageElement {
 
-    private static final String STORAGE_BASE_PATH = "/var/lib/tuxdb";
+    private static final String STORAGE_BASE_PATH = System.getProperty("user.home") + "/.tuxdb/storage";
 
     private File file;
 
