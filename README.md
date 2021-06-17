@@ -1,6 +1,6 @@
 # TuxDB
 
-TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the design of the TuxDB-Core structure, you can review the design documents from [here]()
+TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the design of the TuxDB-Core structure, you can review the design documents from [here](https://github.com/burakpadr/tuxdb/tree/main/docs/design)
 
 # Run
   
