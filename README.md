@@ -1,7 +1,26 @@
-﻿# TuxDB
+# TuxDB
 
 TuxDB is a DBMS that is developed with No-SQL logic. I inspired from the MongoDB-Shell when i design the TuxDB-Shell. That's why the syntax of the TuxDB-Shell is similar the syntax of the MongoDB-Shell. If you interested in the design of the TuxDB-Core structure, you can review the design of TuxDB-Core from the [core-design-docs]()
 
-# Build
+# Run
+  
+ - **Prerequisites**
+ 
+	 - Java 11,  you can see the [instruction documents](https://docs.oracle.com/en/java/javase/11/install/overview-jdk-installation.html#GUID-8677A77F-231A-40F7-98B9-1FD0B48C346A) to install
+	 - Python 3.8.x or greater, you can see the [instruction documents](https://www.python.org/)
 
-Currently, TuxDB is under testing. Therefore, there is no auto build component to do the build for now. If you want to build manual the TuxDB, you can see the build instructions from the [build-doc]()
+- **Run**
+
+	 1. **Run the server**
+		
+		- Firstly, you should go to the **/bin/core** directory
+		- Secondly, you should run the server with the
+			`$ java -cp tuxdb-core.jar com.padr.tuxdb.App` command
+		
+	2. **Run the shell**
+
+		If you want to operate on the database, you should run the shell after the server starts running.
+
+		- Firstly, you should go to the **/bin/shell** directory
+		- Secondly, you should run the shell with the 
+			`$ python3 main.py` command
