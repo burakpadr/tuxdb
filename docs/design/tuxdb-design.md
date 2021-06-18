@@ -5,7 +5,7 @@
 ![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/design/media/tuxdb-general-design.jpeg)
 
 ## **Shell**
-- The shell decides which service to send the commhttps://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/design/media/core-engine-design.pngands entered by the user. After making a decision, it sends the necessary data to the service.  
+- The shell decides which service to send the commands entered by the user. After making a decision, it sends the necessary data to the service.  
 
 ## **Server**
 
