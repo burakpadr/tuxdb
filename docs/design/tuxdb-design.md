@@ -1,4 +1,4 @@
-## TuxDB General Design
+## TuxDB Design
 
   TuxDB consists of two parts, **Shell** and **Core**.
 
