@@ -7,11 +7,11 @@
 ## **Shell**
 - The shell decides which service to send the commands entered by the user. After making a decision, it sends the necessary data to the service.  
 
-## **Server**
+## **Core.Server**
 
 - The server contains multiple services. It reports the data from the shell to the engine for processing this data.
 
-## **Engine**
+## **Core.Engine**
 
 - If the engine supports the requested process, it processes the data from the server.
 -   The engine is an organization that hosts the components that make up the database
@@ -19,10 +19,10 @@
 
 ![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/design/media/core-engine-design.png)
 
-## **Process**
+## **Core.Engine.Process**
 
 - The process section contains the processes that works on the database.
 
- ## **Storage**
+ ## **Core.Engine.Storage**
 
 -   The storage is a component that creates the file system needed by the database.
