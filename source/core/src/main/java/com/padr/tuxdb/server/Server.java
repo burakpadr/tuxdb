@@ -26,7 +26,7 @@ public class Server extends Thread {
 
     private ServerSocket serverSocket;
 
-    private static InetAddress getHost() throws SocketException, UnknownHostException {
+    public static InetAddress getLocalAreaNetworkAddress() throws SocketException, UnknownHostException {
         Enumeration<NetworkInterface> newtorkInterfaces = NetworkInterface.getNetworkInterfaces();
 
         for (NetworkInterface networkInterface : Collections.list(newtorkInterfaces)) {
@@ -40,35 +40,56 @@ public class Server extends Thread {
             }
         }
 
-        return InetAddress.getLocalHost();
+        return null;
     }
 
-    public Server(int port) throws IOException {
-        serverSocket = new ServerSocket(port, 253, getHost());
+    public static InetAddress getLocalHostAddress() throws UnknownHostException, SocketException {
+        Enumeration<NetworkInterface> newtorkInterfaces = NetworkInterface.getNetworkInterfaces();
+
+        for (NetworkInterface networkInterface : Collections.list(newtorkInterfaces)) {
+            if (networkInterface.isLoopback()) {
+                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+
+                for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+                    if (inetAddress instanceof Inet4Address)
+                        return inetAddress;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static int DEFAULT_PORT = 6060;
+
+    public Server(InetAddress address, int port) throws IOException {
+        serverSocket = new ServerSocket(port, 253, address);
     }
 
     @Override
     public void run() {
+        System.out.println(String.format("\nTuxdb is running -> %s:%s", serverSocket.getInetAddress().getHostAddress(), serverSocket.getLocalPort()));
+
         Socket client = null;
 
         while (!serverSocket.isClosed()) {
             try {
                 client = serverSocket.accept();
 
-                new Handler(client).start();
+                new ClientHandler(client).start();
             } catch (IOException e) {
                 continue;
             }
         }
     }
 
-    private class Handler extends Thread {
+    private class ClientHandler extends Thread {
 
         private Socket client;
         private DataOutputStream output;
         private DataInputStream input;
 
-        public Handler(Socket client) throws IOException {
+        public ClientHandler(Socket client) throws IOException {
             this.client = client;
 
             output = new DataOutputStream(client.getOutputStream());
@@ -95,18 +116,24 @@ public class Server extends Thread {
 
         @SuppressWarnings("unchecked")
         private void handler(Map<String, Object> request) throws Throwable {
-            Map<String, Object> env = (Map<String, Object>) request.get("env");
-            List<String> head = (List<String>) request.get("head");
-            List<Object> body = (List<Object>) request.get("body");
+            String service = (String) request.get("service");
+            String function = (String) request.get("function");
+            List<Object> parameters = (List<Object>) request.get("parameters");
 
-            if (head.get(0).equals("database"))
-                output.write(new Gson().toJson(DatabaseController.handler(env, head.get(1), body)).getBytes());
-            else if (head.get(0).equals("collection"))
-                output.write(new Gson().toJson(CollectionController.handler(env, head.get(1), body)).getBytes());
-            else
-                output.write(
-                        String.format("%s -> %s", "There is no such process associated with this name", head.get(0))
+            switch (service) {
+                case "database":
+                    output.write(new Gson().toJson(DatabaseController.handler(function, parameters)).getBytes());
+
+                    break;
+                case "collection":
+                    output.write(new Gson().toJson(CollectionController.handler(function, parameters)).getBytes());
+
+                    break;
+                default:
+                    output.write(
+                        String.format("%s -> %s", "There is no such process associated with this name", service)
                                 .getBytes());
+            }
 
             output.flush();
         }

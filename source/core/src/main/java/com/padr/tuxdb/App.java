@@ -1,15 +1,51 @@
 package com.padr.tuxdb;
 
-import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Scanner;
 
 import com.padr.tuxdb.server.Server;
 
 public class App {
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("\n--- TuxDB-Core v1.0.0 ---");
+    private static String version() {
+        return "v1.1.0";
+    }
 
-        Server server = new Server(6060);
+    public static void main(String[] args) throws Exception {
+        System.out.println(String.format("\n——— Tuxdb %s ———", version()));
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\nWhere will tuxdb run?");
+        System.out.println("\n1- Localhost\n2- Local Area Network (LAN)\n");
+
+        System.out.print("Choice (1 or 2): ");
+
+        int hostChoice = Integer.parseInt(scanner.nextLine());
+
+        System.out.print(
+                String.format("\nPort (if you agree default port %d, please press enter): ", Server.DEFAULT_PORT));
+
+        String portChoice = scanner.nextLine();
+
+        scanner.close();
+
+        InetAddress hostAddress;
+        int port;
+
+        if (hostChoice == 1)
+            hostAddress = Server.getLocalHostAddress();
+        else if (hostChoice == 2)
+            hostAddress = Server.getLocalAreaNetworkAddress();
+        else
+            throw new Exception("Your choice must be 1 or 2");
+
+        if (portChoice.isEmpty())
+            port = Server.DEFAULT_PORT;
+        else
+            port = Integer.parseInt(portChoice);
+
+        Server server = new Server(hostAddress, port);
 
         server.start();
     }

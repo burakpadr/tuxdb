@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.padr.tuxdb.engine.storage.element.d.BTreeDynamicStorageElement;
-import com.padr.tuxdb.engine.storage.element.stc.BtreeStaticStorageElement;
-import com.padr.tuxdb.engine.storage.element.stc.ExternalNodeStaticStorageElement;
-import com.padr.tuxdb.engine.storage.element.stc.InternalNodeStaticStorageElement;
+import com.padr.tuxdb.engine.storage.folder.BtreeFolderStorageElement;
+import com.padr.tuxdb.engine.storage.file.BtreeFileStorageElement;
+import com.padr.tuxdb.engine.storage.file.ExternalNodeFileStorageElement;
+import com.padr.tuxdb.engine.storage.file.FileStorageElement;
+import com.padr.tuxdb.engine.storage.file.InternalNodeFileStorageElement;
 
 public class Btree implements Iterable<Map<String, Object>> {
 
@@ -38,45 +39,46 @@ public class Btree implements Iterable<Map<String, Object>> {
 
             String id = generateId();
 
-            ExternalNodeStaticStorageElement externalNodeStaticStorageElement = new ExternalNodeStaticStorageElement(
+            ExternalNodeFileStorageElement externalNodeFileStorageElement = new ExternalNodeFileStorageElement(
                     btree.databaseName, btree.collectionName, id);
 
-            externalNodeStaticStorageElement.create();
+            externalNodeFileStorageElement.create();
 
             Map<String, Object> updateData = new HashMap<>();
 
             updateData.put("isLeaf", isLeaf);
 
-            externalNodeStaticStorageElement.update(updateData);
+            externalNodeFileStorageElement.update(updateData);
 
             return new ExternalNode(btree.databaseName, btree.collectionName, id);
         }
 
-        private ExternalNodeStaticStorageElement externalNodeStaticStorageElement;
+        private ExternalNodeFileStorageElement externalNodeFileStorageElement;
 
         private String databaseName;
         private String collectionName;
 
         public ExternalNode(String databaseName, String collectionName, String id) throws IOException {
-            externalNodeStaticStorageElement = new ExternalNodeStaticStorageElement(databaseName, collectionName, id);
+            externalNodeFileStorageElement = new ExternalNodeFileStorageElement(databaseName, collectionName, id);
 
             this.databaseName = databaseName;
             this.collectionName = collectionName;
         }
 
         public void delete() throws IOException {
-            externalNodeStaticStorageElement.delete();
+            externalNodeFileStorageElement.delete();
         }
 
+        @SuppressWarnings("unchecked")
         public String getId() throws IOException {
-            return (String) externalNodeStaticStorageElement.read().get("_id");
+            return (String) ((Map<String, Object>) externalNodeFileStorageElement.read()).get("_id");
         }
 
         @SuppressWarnings("unchecked")
         public List<InternalNode> getInternalNodes() throws IOException {
             List<InternalNode> internalNodes = new ArrayList<>();
 
-            List<String> internalNodesId = (List<String>) externalNodeStaticStorageElement.read()
+            List<String> internalNodesId = (List<String>) ((Map<String, Object>) externalNodeFileStorageElement.read())
                     .get("internalNodesId");
 
             for (int i = 0; i < internalNodesId.size(); i++)
@@ -89,8 +91,9 @@ public class Btree implements Iterable<Map<String, Object>> {
             return getIsLeaf() ? getInternalNodes().size() : getInternalNodes().size() - 1;
         }
 
+        @SuppressWarnings("unchecked")
         public boolean getIsLeaf() throws IOException {
-            return (boolean) externalNodeStaticStorageElement.read().get("isLeaf");
+            return (boolean) ((Map<String, Object>) externalNodeFileStorageElement.read()).get("isLeaf");
         }
 
         public void setInternalNodes(List<InternalNode> internalNodes) throws IOException {
@@ -103,7 +106,7 @@ public class Btree implements Iterable<Map<String, Object>> {
 
             updateData.put("internalNodesId", internalNodesId);
 
-            externalNodeStaticStorageElement.update(updateData);
+            externalNodeFileStorageElement.update(updateData);
         }
 
         // public void setIsLeaf(boolean isLeaf) throws IOException {
@@ -119,7 +122,7 @@ public class Btree implements Iterable<Map<String, Object>> {
         // }
 
         public boolean isExist() throws IOException {
-            return externalNodeStaticStorageElement.isExist();
+            return externalNodeFileStorageElement.isExist();
         }
     }
 
@@ -129,12 +132,12 @@ public class Btree implements Iterable<Map<String, Object>> {
 
             String id = generateId();
 
-            InternalNodeStaticStorageElement internalNodeStaticStorageElement = new InternalNodeStaticStorageElement(
+            InternalNodeFileStorageElement internalNodeFileStorageElement = new InternalNodeFileStorageElement(
                     btree.databaseName, btree.collectionName, id);
 
-            internalNodeStaticStorageElement.create();
+            internalNodeFileStorageElement.create();
 
-            if (data != null){
+            if (data != null) {
                 LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>(data);
 
                 data.clear();
@@ -147,40 +150,43 @@ public class Btree implements Iterable<Map<String, Object>> {
             updateData.put("data", data);
             updateData.put("linkId", linkId);
 
-            internalNodeStaticStorageElement.update(updateData);
+            internalNodeFileStorageElement.update(updateData);
 
             return new InternalNode(btree.databaseName, btree.collectionName, id);
         }
 
-        InternalNodeStaticStorageElement internalNodeStaticStorageElement;
+        InternalNodeFileStorageElement internalNodeFileStorageElement;
 
         String databaseName;
         String collectionName;
 
         public InternalNode(String databaseName, String collectionName, String id) {
-            internalNodeStaticStorageElement = new InternalNodeStaticStorageElement(databaseName, collectionName, id);
+            internalNodeFileStorageElement = new InternalNodeFileStorageElement(databaseName, collectionName, id);
 
             this.databaseName = databaseName;
             this.collectionName = collectionName;
         }
 
         public void delete() throws IOException {
-            internalNodeStaticStorageElement.delete();
+            internalNodeFileStorageElement.delete();
         }
-        
+
+        @SuppressWarnings("unchecked")
         public String getId() throws IOException {
-            return (String) internalNodeStaticStorageElement.read().get("_id");
+            return (String) ((Map<String, Object>) internalNodeFileStorageElement.read()).get("_id");
         }
 
         @SuppressWarnings("unchecked")
         public Map<String, Object> getData() throws IOException {
-            Map<String, Object> data = (Map<String, Object>) internalNodeStaticStorageElement.read().get("data");
+            Map<String, Object> data = (Map<String, Object>) ((Map<String, Object>) internalNodeFileStorageElement
+                    .read()).get("data");
 
             return data;
         }
 
+        @SuppressWarnings("unchecked")
         public ExternalNode getLink() throws IOException {
-            String linkId = (String) internalNodeStaticStorageElement.read().get("linkId");
+            String linkId = (String) ((Map<String, Object>) internalNodeFileStorageElement.read()).get("linkId");
 
             return new ExternalNode(databaseName, collectionName, linkId);
         }
@@ -190,8 +196,8 @@ public class Btree implements Iterable<Map<String, Object>> {
 
             updateData.put("_id", id);
 
-            internalNodeStaticStorageElement.update(updateData);
-            internalNodeStaticStorageElement.setDomain(String.format("%s.json", id));
+            internalNodeFileStorageElement.update(updateData);
+            internalNodeFileStorageElement.setDomain(String.format("%s.%s", id, FileStorageElement.FILE_EXTENSION));
         }
 
         public void setData(Map<String, Object> data) throws IOException {
@@ -199,7 +205,7 @@ public class Btree implements Iterable<Map<String, Object>> {
 
             updateData.put("data", data);
 
-            internalNodeStaticStorageElement.update(updateData);
+            internalNodeFileStorageElement.update(updateData);
         }
 
         public void setLink(String linkId) throws IOException {
@@ -207,12 +213,8 @@ public class Btree implements Iterable<Map<String, Object>> {
 
             updateData.put("linkId", linkId);
 
-            internalNodeStaticStorageElement.update(updateData);
+            internalNodeFileStorageElement.update(updateData);
         }
-
-        // public boolean isExist() {
-        // return internalNodeStaticStorageElement.isExist();
-        // }
 
         public boolean contains(Map<String, Object> query) throws IOException {
             if (query.isEmpty())
@@ -250,36 +252,39 @@ public class Btree implements Iterable<Map<String, Object>> {
         }
     }
 
-    private BtreeStaticStorageElement btreeStaticStorageElement;
+    private BtreeFileStorageElement btreeFileStorageElement;
 
     private String databaseName;
     private String collectionName;
 
     public static Btree creatBtree(String databaseName, String collectionName) throws IOException {
-        new BTreeDynamicStorageElement(databaseName, collectionName).create();
+        new BtreeFolderStorageElement(databaseName, collectionName).create();
 
         return new Btree(databaseName, collectionName);
     }
 
     public Btree(String databaseName, String collectionName) throws IOException {
-        btreeStaticStorageElement = new BtreeStaticStorageElement(databaseName, collectionName);
+        btreeFileStorageElement = new BtreeFileStorageElement(databaseName, collectionName);
 
         this.databaseName = databaseName;
         this.collectionName = collectionName;
     }
 
+    @SuppressWarnings("unchecked")
     private ExternalNode getRoot() throws IOException {
-        String rootId = (String) btreeStaticStorageElement.read().get("rootId");
+        String rootId = (String) ((Map<String, Object>) btreeFileStorageElement.read()).get("rootId");
 
         return new ExternalNode(databaseName, collectionName, rootId);
     }
 
+    @SuppressWarnings("unchecked")
     private int getMinL() throws IOException {
-        return ((Double) btreeStaticStorageElement.read().get("minL")).intValue();
+        return ((Double) ((Map<String, Object>) btreeFileStorageElement.read()).get("minL")).intValue();
     }
 
+    @SuppressWarnings("unchecked")
     private int getMaxL() throws IOException {
-        return ((Double) btreeStaticStorageElement.read().get("maxL")).intValue();
+        return ((Double) ((Map<String, Object>) btreeFileStorageElement.read()).get("maxL")).intValue();
     }
 
     private void setRoot(String rootId) throws IOException {
@@ -287,7 +292,7 @@ public class Btree implements Iterable<Map<String, Object>> {
 
         updateData.put("rootId", rootId);
 
-        btreeStaticStorageElement.update(updateData);
+        btreeFileStorageElement.update(updateData);
     }
 
     // B-Tree auixiliary functions
@@ -743,9 +748,10 @@ public class Btree implements Iterable<Map<String, Object>> {
         if (queryResult == null || queryResult.isEmpty())
             return false;
 
-        Map<String, Object> data = queryResult.get(0);
+        for (Map<String, Object> data : queryResult)
+            delete(String.valueOf(data.get("_id")));
 
-        return delete(String.valueOf(data.get("_id")));
+        return true;
     }
 
     // This function has O(logN) runtime

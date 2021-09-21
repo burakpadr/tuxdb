@@ -5,18 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.padr.tuxdb.engine.feedback.Feedback;
-import com.padr.tuxdb.engine.storage.element.StorageElement;
-import com.padr.tuxdb.engine.storage.element.d.DatabaseDynamicStorageElement;
-import com.padr.tuxdb.engine.storage.element.d.DynamicStorageElement;
-import com.padr.tuxdb.engine.storage.element.stc.DatabaseStaticStorageElement;
+import com.padr.tuxdb.engine.process.Feedback;
+import com.padr.tuxdb.engine.storage.StorageElement;
+import com.padr.tuxdb.engine.storage.folder.DatabaseFolderStorageElement;
+import com.padr.tuxdb.engine.storage.folder.FolderStorageElement;
+import com.padr.tuxdb.engine.storage.file.DatabaseFileStorageElement;
 
 public class Database {
 
+    @SuppressWarnings("unchecked")
     public static List<String> getDatabaseNames() throws IOException {
         List<String> databaseNames = new ArrayList<>();
 
-        List<StorageElement> content = new DynamicStorageElement("/", "").read();
+        List<StorageElement> content = (List<StorageElement>) new FolderStorageElement().read();
 
         if (content == null)
             return databaseNames;
@@ -31,19 +32,13 @@ public class Database {
         return getDatabaseNames().size();
     }
 
-    private String databaseName;
-
-    private DatabaseDynamicStorageElement database;
-
-    public Database(String databaseName) {
-        this.databaseName = databaseName; 
-        database = new DatabaseDynamicStorageElement(databaseName);
-    }
-
-    public Map<String, Object> createDatabase() throws IOException {
+    public static Map<String, Object> createDatabase(String databaseName) throws IOException {
         if (!StorageElement.domainIsSuited(databaseName))
             return Feedback.feedback(0, "The database name contains only a-Z, 0-9, -_.");
-        else if (database.isExist())
+
+        DatabaseFolderStorageElement database = new DatabaseFolderStorageElement(databaseName);
+
+        if (database.isExist())
             return Feedback.feedback(0, "There is already such a database associated with this name");
 
         database.create();
@@ -51,30 +46,27 @@ public class Database {
         return Feedback.feedback(1, "The database was created");
     }
 
-    public Object getDatabaseName() throws IOException {
-        if (!database.isExist())
-            return Feedback.feedback(0, "There is no such database");
+    private DatabaseFolderStorageElement database;
+    private Map<String, Object> constructorError;
 
-        return database.getDomain();
+    public Database(String databaseName) {
+        database = new DatabaseFolderStorageElement(databaseName);
+
+        if (!StorageElement.domainIsSuited(databaseName))
+            constructorError = Feedback.feedback(0, "The database name contains only a-Z, 0-9, -_.");
+        else if (!database.isExist())
+            constructorError = Feedback.feedback(0, String.format("There is no database named %s", databaseName));
     }
 
-    // public Object getCollection(String collectionName) throws IOException {
-    //     if (!database.isExist())
-    //         return Feedback.feedback(0, "There is no such database");
-    //     else if (!database.contains(collectionName))
-    //         return Feedback.feedback(0, "This database doesn't contain such collection");
-
-    //     return new Collection((String) getDatabaseName(), collectionName);
-    // }
-
+    @SuppressWarnings("unchecked")
     public Object getCollectionNames() throws IOException {
-        if (!database.isExist())
-            return Feedback.feedback(0, "There is no such database");
-
+        if (constructorError != null){
+            return constructorError;
+        }
         List<String> collectionNames = new ArrayList<>();
 
-        for (StorageElement collection : database.read()) {
-            if ((collection instanceof DynamicStorageElement))
+        for (StorageElement collection : (List<StorageElement>) database.read()) {
+            if ((collection instanceof FolderStorageElement))
                 collectionNames.add(collection.getDomain());
         }
 
@@ -83,18 +75,18 @@ public class Database {
 
     @SuppressWarnings("unchecked")
     public Object getCollectionSize() throws IOException {
-        if (!database.isExist())
-            return Feedback.feedback(0, "There is no such database");
+        if (constructorError != null)
+            return constructorError;
 
         return ((List<String>) getCollectionNames()).size();
     }
 
     public Map<String, Object> setDatabaseName(String databaseName) throws IOException {
-        if (!database.isExist())
-            return Feedback.feedback(0, "There is no such database");
+        if (constructorError != null)
+            return constructorError;
         else if (!StorageElement.domainIsSuited(databaseName))
             return Feedback.feedback(0, "The database name contains only a-Z, 0-9, -_.");
-        else if (new DatabaseStaticStorageElement(databaseName).isExist())
+        else if (new DatabaseFileStorageElement(databaseName).isExist())
             return Feedback.feedback(0, "There is already such a database associated with this name");
 
         database.setDomain(databaseName);
@@ -102,20 +94,9 @@ public class Database {
         return Feedback.feedback(1, "The database was renamed");
     }
 
-    public Map<String, Object> createCollection(String collectionName) throws IOException {
-        if (!StorageElement.domainIsSuited(collectionName))
-            return Feedback.feedback(0, "The collection name contains only a-Z, 0-9, -_.");
-        else if (!database.isExist())
-            return Feedback.feedback(0, "There is no such database");
-        else if (database.contains(collectionName))
-            return Feedback.feedback(0, "This database already contains a collection associated with this name");
-
-        return new Collection((String) getDatabaseName(), collectionName).createCollection();
-    }
-
-    public Map<String, Object> dropDatabase() throws IOException {
-        if (!database.isExist())
-            return Feedback.feedback(0, "There is no such database");
+    public Map<String, Object> drop() throws IOException {
+        if (constructorError != null)
+            return constructorError;
 
         database.delete();
 
@@ -123,6 +104,9 @@ public class Database {
     }
 
     public boolean isExist() {
+        if (constructorError != null)
+            return false;
+
         return database.isExist();
     }
 }
