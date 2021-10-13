@@ -15,10 +15,6 @@ class DatabaseController:
             DatabaseController.__SERVICE_NAME, "getDatabaseNames", []))
 
     @staticmethod
-    def getDatabaseSize():
-        print(connection.send(DatabaseController.__SERVICE_NAME, "getDatabaseSize", []))
-
-    @staticmethod
     def createDatabase():
         print(connection.send(DatabaseController.__SERVICE_NAME,
               "createDatabase", [EnvironmentVariable.databaseName]))
@@ -27,11 +23,6 @@ class DatabaseController:
     def getCollectionNames():
         print(connection.send(DatabaseController.__SERVICE_NAME,
               "getCollectionNames", [EnvironmentVariable.databaseName]))
-
-    @staticmethod
-    def getCollectionSize():
-        print(connection.send(DatabaseController.__SERVICE_NAME,
-              "getCollectionSize", [EnvironmentVariable.databaseName]))
 
     @staticmethod
     def setDatabaseName():

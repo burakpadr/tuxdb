@@ -11,7 +11,6 @@
 /home/padr/padr/tuxdb/source/core/src/main/java/com/padr/tuxdb/engine/storage/folder/FolderStorageElement.java
 /home/padr/padr/tuxdb/source/core/src/main/java/com/padr/tuxdb/engine/storage/file/FileStorageElement.java
 /home/padr/padr/tuxdb/source/core/src/main/java/com/padr/tuxdb/engine/process/pub/Database.java
-/home/padr/padr/tuxdb/source/core/src/main/java/com/padr/tuxdb/engine/process/pvt/DataTypeController.java
 /home/padr/padr/tuxdb/source/core/src/main/java/com/padr/tuxdb/engine/process/pvt/Btree.java
 /home/padr/padr/tuxdb/source/core/src/main/java/com/padr/tuxdb/engine/storage/file/CollectionFileStorageElement.java
 /home/padr/padr/tuxdb/source/core/src/main/java/com/padr/tuxdb/engine/storage/folder/BtreeFolderStorageElement.java

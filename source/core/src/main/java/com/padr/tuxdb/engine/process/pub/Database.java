@@ -28,10 +28,6 @@ public class Database {
         return databaseNames;
     }
 
-    public static Integer getDatabaseSize() throws IOException {
-        return getDatabaseNames().size();
-    }
-
     public static Map<String, Object> createDatabase(String databaseName) throws IOException {
         if (!StorageElement.domainIsSuited(databaseName))
             return Feedback.feedback(0, "The database name contains only a-Z, 0-9, -_.");
@@ -71,14 +67,6 @@ public class Database {
         }
 
         return collectionNames;
-    }
-
-    @SuppressWarnings("unchecked")
-    public Object getCollectionSize() throws IOException {
-        if (constructorError != null)
-            return constructorError;
-
-        return ((List<String>) getCollectionNames()).size();
     }
 
     public Map<String, Object> setDatabaseName(String databaseName) throws IOException {

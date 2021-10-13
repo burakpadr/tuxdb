@@ -12,14 +12,10 @@ public class DatabaseController {
             switch (function) {
                 case "getDatabaseNames":
                     return Database.getDatabaseNames();
-                case "getDatabaseSize":
-                    return Database.getDatabaseSize();
                 case "createDatabase":
                     return Database.createDatabase((String) parameters.get(0));
                 case "getCollectionNames":
                     return new Database((String) parameters.get(0)).getCollectionNames();
-                case "getCollectionSize":
-                    return new Database((String) parameters.get(0)).getCollectionSize();
                 case "setDatabaseName":
                     return new Database((String) parameters.get(0)).setDatabaseName((String) parameters.get(1));
                 case "drop":

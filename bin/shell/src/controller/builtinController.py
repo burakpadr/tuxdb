@@ -24,10 +24,8 @@ class BuiltinController:
         help += f"{boldStyle}\nDATABASE COMMANDS{defaultStyle}\n"
 
         help += space * ' ' + "database getDatabaseNames : Get the all database names available in tuxdb\n"
-        help += space * ' ' + "database getDatabaseSize : Get the database size that tuxdb contains\n"
         help += space * ' ' + "database createDatabase : Create a new database\n"
         help += space * ' ' + "database getCollectionNames : Get the collection names contained in the database used\n"
-        help += space * ' ' + "database getCollectionSize : Get the collection size contained in the database used\n"
         help += space * ' ' + "database setDatabaseName : Rename currently used database\n"
         help += space * ' ' + "database drop : Delete currently used database\n"
 
