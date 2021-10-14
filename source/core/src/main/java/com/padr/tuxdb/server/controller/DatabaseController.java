@@ -18,6 +18,8 @@ public class DatabaseController {
                     return new Database((String) parameters.get(0)).getCollectionNames();
                 case "setDatabaseName":
                     return new Database((String) parameters.get(0)).setDatabaseName((String) parameters.get(1));
+                case "isExits":
+                    return new Database((String) parameters.get(0)).isExist();
                 case "drop":
                     return new Database((String) parameters.get(0)).drop();
                 default:
