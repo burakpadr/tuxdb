@@ -40,6 +40,8 @@ public class CollectionController {
                     return collection.delete((Map<String, Object>) parameters.get(2));
                 case "drop":
                     return collection.drop();
+                case "isExist":
+                    return collection.isExist();
                 default:
                     return null;
             }
