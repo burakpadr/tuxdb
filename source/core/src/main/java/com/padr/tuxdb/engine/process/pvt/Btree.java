@@ -591,7 +591,7 @@ public class Btree implements Iterable<Map<String, Object>> {
 
     private Map<String, Object> get(ExternalNode root, String id) throws IOException {
         if (!root.isExist())
-            return null;
+            return new HashMap<>();
 
         for (InternalNode internalNode : root.getInternalNodes()) {
             if (internalNode.getData().isEmpty() || internalNode.getId().compareTo(id) > 0)
@@ -605,7 +605,7 @@ public class Btree implements Iterable<Map<String, Object>> {
 
     private List<Map<String, Object>> get(ExternalNode root, Map<String, Object> query) throws IOException {
         if (!root.isExist())
-            return null;
+            return new ArrayList<>();
 
         List<Map<String, Object>> result = new ArrayList<>();
 

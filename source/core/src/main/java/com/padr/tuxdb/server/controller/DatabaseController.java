@@ -20,12 +20,14 @@ public class DatabaseController {
                     return new Database((String) parameters.get(0)).setDatabaseName((String) parameters.get(1));
                 case "isExist":
                     return new Database((String) parameters.get(0)).isExist();
-                case "drop":
+                case "drop": 
                     return new Database((String) parameters.get(0)).drop();
                 default:
                     return null;
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+
             return null;
         }
     }
