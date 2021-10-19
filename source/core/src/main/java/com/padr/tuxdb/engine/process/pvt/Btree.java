@@ -743,7 +743,13 @@ public class Btree implements Iterable<Map<String, Object>> {
 
     // This function has O(N) runtime
     public boolean delete(Map<String, Object> query) throws Throwable {
-        List<Map<String, Object>> queryResult = get(query);
+        List<Map<String, Object>> queryResult = new ArrayList<>();
+
+        if (query.isEmpty())
+            for (Map<String, Object> object : this)
+                queryResult.add(object);
+        else
+            queryResult = get(query);
 
         if (queryResult.isEmpty())
             return false;
