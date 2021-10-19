@@ -97,9 +97,11 @@ public class Collection {
     }
 
     public Object find(Map<String, Object> query) throws IOException {
-        if (constructorError != null){
+        if (constructorError != null)
             return constructorError;
-        }
+
+        if (query.isEmpty())
+            return getAllObjects();
 
         return btree.get(query);
     }
