@@ -777,17 +777,23 @@ public class Btree implements Iterable<Map<String, Object>> {
 
     // This function has O(N) runtime
     public boolean update(Map<String, Object> query, Map<String, Object> updateData) throws IOException {
-        List<Map<String, Object>> queryResult = get(query);
+        List<Map<String, Object>> queryResult = new ArrayList<>();
+
+        if (query.isEmpty())
+            for (Map<String, Object> object : this)
+                queryResult.add(object);
+        else
+            queryResult = get(query);
 
         if (queryResult.isEmpty())
             return false;
 
-        Map<String, Object> data = queryResult.get(0);
+        for (Map<String, Object> data : queryResult){
+            for (Map.Entry<String, Object> updateElement : updateData.entrySet())
+                data.put(updateElement.getKey(), updateElement.getValue());
 
-        for (Map.Entry<String, Object> updateElement : updateData.entrySet())
-            data.put(updateElement.getKey(), updateElement.getValue());
-
-        new InternalNode(databaseName, collectionName, String.valueOf(data.get("_id"))).setData(data);
+            new InternalNode(databaseName, collectionName, String.valueOf(data.get("_id"))).setData(data);
+        }
 
         return true;
     }
