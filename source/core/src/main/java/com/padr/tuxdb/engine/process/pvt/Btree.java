@@ -600,7 +600,7 @@ public class Btree implements Iterable<Map<String, Object>> {
                 return internalNode.getData();
         }
 
-        return null;
+        return new HashMap<>();
     }
 
     private List<Map<String, Object>> get(ExternalNode root, Map<String, Object> query) throws IOException {
@@ -732,7 +732,7 @@ public class Btree implements Iterable<Map<String, Object>> {
 
     // This function has O(logN) runtime
     public boolean delete(String id) throws Throwable {
-        if (get(id) == null)
+        if (get(id).isEmpty())
             return false;
 
         delete(getRoot(), id);
@@ -745,7 +745,7 @@ public class Btree implements Iterable<Map<String, Object>> {
     public boolean delete(Map<String, Object> query) throws Throwable {
         List<Map<String, Object>> queryResult = get(query);
 
-        if (queryResult == null || queryResult.isEmpty())
+        if (queryResult.isEmpty())
             return false;
 
         for (Map<String, Object> data : queryResult)
@@ -758,7 +758,7 @@ public class Btree implements Iterable<Map<String, Object>> {
     public boolean update(String id, Map<String, Object> updateData) throws IOException {
         Map<String, Object> data = get(id);
 
-        if (data == null)
+        if (data.isEmpty())
             return false;
 
         for (Map.Entry<String, Object> updateElement : updateData.entrySet())
@@ -773,7 +773,7 @@ public class Btree implements Iterable<Map<String, Object>> {
     public boolean update(Map<String, Object> query, Map<String, Object> updateData) throws IOException {
         List<Map<String, Object>> queryResult = get(query);
 
-        if (queryResult == null || queryResult.isEmpty())
+        if (queryResult.isEmpty())
             return false;
 
         Map<String, Object> data = queryResult.get(0);
