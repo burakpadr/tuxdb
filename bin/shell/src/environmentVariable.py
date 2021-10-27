@@ -1,3 +1,0 @@
-class EnvironmentVariable:
-
-    databaseName = "test"
