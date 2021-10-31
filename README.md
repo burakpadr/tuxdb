@@ -1,6 +1,6 @@
-# TuxDB
+﻿# TuxDB
 
-TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the design of the TuxDB-Core structure, you can review the design documents from [here](https://github.com/burakpadr/tuxdb/blob/main/docs/design/tuxdb-design.md)
+TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the design of the TuxDB-Core structure, you can review the design documents from [here]()
 
 # Run
   
@@ -21,11 +21,15 @@ TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the de
 You can run a process in 2 ways.
 
 - **TuxDB-Shell** 
-
 	You can review the shell from [here](https://github.com/burakpadr/tuxdb-shell).
 	
 - **Tuxpy**
-
 	You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxpy).
-
+	
+- **Tuxjava**
+	You can review the tuxjava API developed for the Java Programming Language from [here](https://github.com/burakpadr/tuxjava).
+	
+	
+	
 	  
+
