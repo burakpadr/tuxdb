@@ -27,10 +27,7 @@ You can run a process in 2 ways.
 - **Tuxpy**
 
 	You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxpy).
-	
-- **Tuxjava**
 
-	You can review the tuxjava API developed for the Java Programming Language from [here](https://github.com/burakpadr/tuxjava).
 	
 	
 	
