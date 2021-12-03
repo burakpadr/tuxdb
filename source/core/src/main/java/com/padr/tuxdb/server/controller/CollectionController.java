@@ -1,43 +1,46 @@
 package com.padr.tuxdb.server.controller;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import com.padr.tuxdb.engine.process.pub.Collection;
+
+import spark.Request;
 
 public class CollectionController {
 
     @SuppressWarnings("unchecked")
-    public static Object handler(String function, List<Object> parameters) throws Throwable {
-        // Index 0 and 1 of parameters should be databaseName and collectionName respectively
-
+    public static Object handler(String function, Request request) throws Throwable {
         try {
-            String databaseName = (String) parameters.get(0);
-            String collectionName = (String) parameters.get(1);
+            String databaseName = request.queryParams("databaseName");
+            String collectionName = request.queryParams("collectionName");
 
             Collection collection = new Collection(databaseName, collectionName);
+
+            Map<String, Object> draft = new HashMap<>();
 
             switch (function) {
                 case "createCollection":
                     return Collection.createCollection(databaseName, collectionName);
                 case "setCollectionName":
-                    return collection.setCollectionName((String) parameters.get(2));
+                    return collection.setCollectionName(request.queryParams("newCollectionName"));
                 case "getAllObjects":
                     return collection.getAllObjects();
                 case "findFromObjectId":
-                    return collection.findFromObjectId((String) parameters.get(2));
+                    return collection.findFromObjectId(request.queryParams("objectId"));
                 case "find":
-                    return collection.find((Map<String, Object>) parameters.get(2));
+                    return collection.find(new Gson().fromJson(request.queryParams("query"), draft.getClass()));
                 case "insert":
-                    return collection.insert((Map<String, Object>) parameters.get(2));
+                    return collection.insert(new Gson().fromJson(request.queryParams("data"), draft.getClass()));
                 case "updateFromObjectId":
-                    return collection.updateFromObjectId((String) parameters.get(2), (Map<String, Object>) parameters.get(3));
+                    return collection.updateFromObjectId(request.queryParams("objectId"), new Gson().fromJson(request.queryParams("updateData"), draft.getClass()));
                 case "update":
-                    return collection.update((Map<String, Object>) parameters.get(2), (Map<String, Object>) parameters.get(3));
+                    return collection.update(new Gson().fromJson(request.queryParams("query"), draft.getClass()), new Gson().fromJson(request.queryParams("updateData"), draft.getClass()));
                 case "deleteFromObjectId":
-                    return collection.deleteFromObjectId((String) parameters.get(2));
+                    return collection.deleteFromObjectId(request.queryParams("objectId"));
                 case "delete":
-                    return collection.delete((Map<String, Object>) parameters.get(2));
+                    return collection.delete(new Gson().fromJson(request.queryParams("query"), draft.getClass()));
                 case "drop":
                     return collection.drop();
                 case "isExist":

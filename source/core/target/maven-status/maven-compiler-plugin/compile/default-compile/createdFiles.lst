@@ -12,7 +12,6 @@ com/padr/tuxdb/engine/storage/file/ExternalNodeFileStorageElement.class
 com/padr/tuxdb/engine/storage/folder/InternalNodeFolderStorageElement.class
 com/padr/tuxdb/server/controller/DatabaseController.class
 com/padr/tuxdb/server/controller/CollectionController.class
-com/padr/tuxdb/server/Server$ClientHandler.class
 com/padr/tuxdb/engine/storage/folder/CollectionFolderStorageElement.class
 com/padr/tuxdb/engine/process/Feedback.class
 com/padr/tuxdb/engine/storage/folder/BtreeFolderStorageElement.class

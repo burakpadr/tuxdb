@@ -1,35 +1,31 @@
 package com.padr.tuxdb.server.controller;
-
-import java.io.IOException;
-import java.util.List;
-
 import com.padr.tuxdb.engine.process.pub.Database;
+
+import spark.Request;
 
 public class DatabaseController {
 
-    public static Object handler(String function, List<Object> parameters) throws IOException {
+    public static Object handler(String function, Request request) {
         try {
             switch (function) {
                 case "getDatabaseNames":
                     return Database.getDatabaseNames();
                 case "createDatabase":
-                    return Database.createDatabase((String) parameters.get(0));
+                    return Database.createDatabase(request.queryParams("databaseName"));
                 case "getCollectionNames":
-                    return new Database((String) parameters.get(0)).getCollectionNames();
+                    return new Database(request.queryParams("databaseName")).getCollectionNames();
                 case "setDatabaseName":
-                    return new Database((String) parameters.get(0)).setDatabaseName((String) parameters.get(1));
+                    return new Database(request.queryParams("databaseName")).setDatabaseName(request.queryParams("newDatabaseName"));
                 case "isExist":
-                    return new Database((String) parameters.get(0)).isExist();
+                    return new Database(request.queryParams("databaseName")).isExist();
                 case "drop": 
-                    return new Database((String) parameters.get(0)).drop();
+                    return new Database(request.queryParams("databaseName")).drop();
                 default:
                     return null;
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-
             return null;
         }
     }
-
+    
 }

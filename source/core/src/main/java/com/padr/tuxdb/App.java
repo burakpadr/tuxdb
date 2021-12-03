@@ -5,14 +5,10 @@ import java.util.Scanner;
 
 import com.padr.tuxdb.server.Server;
 
-public class App {
+public final class App {
 
-    private static String version() {
-        return "v1.1.0";
-    }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(String.format("\n——— Tuxdb %s ———", version()));
+    public static void main(String[] args) throws Throwable {
+        System.out.println("\n——— Tuxdb ———");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -45,8 +41,6 @@ public class App {
         else
             port = Integer.parseInt(portChoice);
 
-        Server server = new Server(hostAddress, port);
-
-        server.start();
+        Server.run(hostAddress.getHostAddress(), port);
     }
 }
