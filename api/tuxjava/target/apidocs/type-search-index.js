@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"io.github.burakpadr.tuxjava","l":"Client"},{"p":"io.github.burakpadr.tuxjava","l":"Collection"},{"p":"io.github.burakpadr.tuxjava","l":"Database"}]
