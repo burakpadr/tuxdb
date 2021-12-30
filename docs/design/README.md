@@ -2,7 +2,7 @@
 
   TuxDB consists of two parts, **Shell** and **Core**.
 
-![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/design/media/tuxdb-general-design.jpeg)
+![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/media/core-engine-design.png)
 
 ## **Shell**
 - The shell decides which service to send the commands entered by the user. After making a decision, it sends the necessary data to the service.  

@@ -1,4 +1,4 @@
-﻿﻿# TuxDB
+# TuxDB
 
 TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the design of the TuxDB-Core structure, you can review the design documents from [here](https://github.com/burakpadr/tuxdb/blob/main/docs/design/tuxdb-design.md)
 
@@ -29,13 +29,12 @@ $ cd tools/shell && python main.py
 - **tuxpy**
  
 	 You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxdb/api/tuxpy)
-	 ![](%28https://github.com/burakpadr/tuxdb/api/tuxjava!%5B%5D%28github.com/burakpadr/tuxdb/tree/main/docs/media/tuxpy)
+	 ![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/media/tuxpy.png)
 	 
 - **tuxjava**
 
-	You can review the tuxpy API developed for the Python Programming Language from [here]
+	You can review the tuxpy API developed for the Python Programming Language from [https://github.com/burakpadr/tuxdb/api/tuxpy]
 
 # Benchmark
 
-![](%28https://github.com/burakpadr/tuxdb/api/tuxjava!%5B%5D%28github.com/burakpadr/tuxdb/tree/main/docs/media/tuxdb-benchmark)
-
+![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/media/tuxdb-benchmark.png)
