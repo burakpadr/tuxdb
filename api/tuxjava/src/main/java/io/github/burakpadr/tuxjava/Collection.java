@@ -85,6 +85,23 @@ public class Collection {
     }
 
     @SuppressWarnings("unchecked")
+    public Map<String, Object> findOne(Map<String, Object> query) throws Exception {
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("databaseName", databaseName);
+        parameters.put("collectionName", collectionName);
+        parameters.put("query", query);
+
+        Map<String, Object> response = new HashMap<>();
+
+        response = (Map<String, Object>) new ObjectMapper().readValue(
+                client.send(SERVICE_NAME, "findOne", parameters),
+                response.getClass());
+
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
     public List<Map<String, Object>> find(Map<String, Object> query) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
 
