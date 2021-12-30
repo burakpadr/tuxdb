@@ -1,4 +1,4 @@
-﻿# TuxDB
+﻿﻿# TuxDB
 
 TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the design of the TuxDB-Core structure, you can review the design documents from [here](https://github.com/burakpadr/tuxdb/blob/main/docs/design/tuxdb-design.md)
 
@@ -7,29 +7,35 @@ TuxDB is a DBMS that is developed with No-SQL logic. If you interested in the de
  - **Prerequisites**
  
 	 - Java 11,  you can see the [instruction documents](https://docs.oracle.com/en/java/javase/11/install/overview-jdk-installation.html#GUID-8677A77F-231A-40F7-98B9-1FD0B48C346A) to install
+	 - Python3,  you can see the [instruction documents](https://www.python.org/) to install
 
- - **Run**
+```bash
 
-	 1- **Run the server**
+# download with git tool
+$ git clone https://github.com/burakpadr/tuxdb.git
 
-	- Firstly, you should go to the **/bin** directory
-	- Secondly, you should run the server with the
-			`$ java -cp tuxdb-core.jar com.padr.tuxdb.App` command
+# or download with gh tool
+$ gh repo clone burakpadr/tuxdb
 
-# Running the process found in TuxDB
+# run the server
+$ java -cp core/bin/tuxdb.jar com.padr.tuxdb.App
 
-You can run a process in 2 ways.
+#run the shell
+$ cd tools/shell && python main.py
 
-- **TuxDB-Shell** 
+```
+# API
 
-	You can review the shell from [here](https://github.com/burakpadr/tuxdb-shell).
-	
-- **Tuxpy**
+- **tuxpy**
+ 
+	 You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxdb/api/tuxpy)
+	 ![](%28https://github.com/burakpadr/tuxdb/api/tuxjava!%5B%5D%28github.com/burakpadr/tuxdb/tree/main/docs/media/tuxpy)
+	 
+- **tuxjava**
 
-	You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxpy).
+	You can review the tuxpy API developed for the Python Programming Language from [here]
 
-	
-	
-	
-	  
+# Benchmark
+
+![](%28https://github.com/burakpadr/tuxdb/api/tuxjava!%5B%5D%28github.com/burakpadr/tuxdb/tree/main/docs/media/tuxdb-benchmark)
 
