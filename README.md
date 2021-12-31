@@ -28,12 +28,12 @@ $ cd tools/shell && python main.py
 
 - **tuxpy**
  
-	 You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxdb/api/tuxpy)
+	 You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxdb/tree/main/api/tuxpy)
 	 ![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/media/tuxpy.png)
 	 
 - **tuxjava**
 
-	You can review the tuxjava API developed for the Java Programming Language from [here](https://github.com/burakpadr/tuxdb/api/tuxjava)
+	You can review the tuxjava API developed for the Java Programming Language from [here](https://github.com/burakpadr/tuxdb/tree/main/api/tuxjava)
 
 # Benchmark
 
