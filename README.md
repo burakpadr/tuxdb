@@ -33,7 +33,7 @@ $ cd tools/shell && python main.py
 	 
 - **tuxjava**
 
-	You can review the tuxpy API developed for the Python Programming Language from [https://github.com/burakpadr/tuxdb/api/tuxpy]
+	You can review the tuxpy API developed for the Python Programming Language from [here](https://github.com/burakpadr/tuxdb/api/tuxpy)
 
 # Benchmark
 

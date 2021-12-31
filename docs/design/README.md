@@ -17,7 +17,7 @@
 -   The engine is an organization that hosts the components that make up the database
 - The engine consist of two parts, **process** and **storage**.
 
-![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/design/media/core-engine-design.png)
+![](https://raw.githubusercontent.com/burakpadr/tuxdb/main/docs/media/core-engine-design.png)
 
 ## **Core.Engine.Process**
 
