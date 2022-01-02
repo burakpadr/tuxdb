@@ -35,6 +35,7 @@ class BuiltinController:
         help += space * ' ' + "collection setCollectionName : Set the collection name\n"
         help += space * ' ' + "collection getAllObjects : Get the all objects in the collection\n"
         help += space * ' ' + "collection findFromObjectId : Find the object from object id\n"
+        help += space * ' ' + "collection findOne : Find an object from json query\n"
         help += space * ' ' + "collection find : Find the objects from json query\n"
         help += space * ' ' + "collection insert : Insert an object to the collection\n"
         help += space * ' ' + "collection updateFromObjectId : Update the content of object associated with an object id\n"

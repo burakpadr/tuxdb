@@ -62,6 +62,8 @@ class Controller:
                     CollectionController.getAllObjects()
                 elif subcommand == "findFromObjectId":
                     CollectionController.findFromObjectId()
+                elif subcommand == "findOne":
+                    CollectionController.findOne()
                 elif subcommand == "find":
                     CollectionController.find()
                 elif subcommand == "insert":

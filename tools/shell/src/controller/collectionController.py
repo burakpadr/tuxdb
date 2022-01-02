@@ -45,6 +45,17 @@ class CollectionController:
 
         print(connection.send(CollectionController.__SERVICE_NAME, "findFromObjectId", {
               "databaseName": EnvironmentVariable.databaseName, "collectionName": collectionName, "objectId": objectId}))
+    
+    @staticmethod
+    def findOne():
+        collectionName = input(
+            f"{Constant.COMMAND_QUESTION_PREFIX}Collection Name: ")
+
+        query = json.loads(input(Constant.COMMAND_QUESTION_PREFIX +
+                                 "Query (JSON Format like {'db': 'sample_db'}): "))
+
+        print(connection.send(CollectionController.__SERVICE_NAME, "findOne", {
+              "databaseName": EnvironmentVariable.databaseName, "collectionName": collectionName, "query": query}))
 
     @staticmethod
     def find():

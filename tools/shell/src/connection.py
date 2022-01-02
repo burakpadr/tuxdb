@@ -1,7 +1,5 @@
 import json
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
-
+import requests
 
 class Connection:
 
@@ -21,10 +19,7 @@ class Connection:
         return self.__port
 
     def send(self, service: str, function: str, parameters: dict):
-        request = Request(
-            f"http://{self.__host}:{self.__port}/{service}/{function}/", urlencode(parameters).encode())
-
-        return json.loads(urlopen(request).read().decode())
+        return requests.post(f"http://{self.__host}:{self.__port}/{service}/{function}/", json=parameters).json()
 
 
 connection = Connection()
