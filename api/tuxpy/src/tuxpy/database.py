@@ -10,28 +10,27 @@ class Database:
         self.__client = client
         self.__databaseName = databaseName
 
-        databaseIsExist = bool(client._send(
-            self.__SERVICE_NAME, "isExist", {"databaseName": databaseName}))
+    def getDatabaseNames(self) -> list:
+        return list(self.__client._send(self.__SERVICE_NAME, "getDatabaseNames", {}))
 
-        if not databaseIsExist:
-            client._send(self.__SERVICE_NAME, "createDatabase",
-                         {"databaseName": databaseName})
+    def getName(self) -> str:
+        return self.__databaseName
 
-    def getCollection(self, collectionName: str) -> collection.Collection:
-        return collection.Collection(
-            self.__client, self.__databaseName, collectionName)
-
-    def getCollectionNames(self) -> list:
-        return list(self.__client._send(self.__SERVICE_NAME, "getCollectionNames", {"databaseName": self.__databaseName}))
-
-    def setDatabaseName(self, newDatabaseName: str) -> dict:
-        response = dict(self.__client._send(self.__SERVICE_NAME, "setDatabaseName", {
-                        "databaseName": self.__databaseName, "newDatabaseName": newDatabaseName}))
+    def setName(self, newDatabaseName: str) -> dict:
+        response = dict(self.__client._send(self.__SERVICE_NAME, "setName", {
+                    "databaseName": self.__databaseName, "newDatabaseName": newDatabaseName}))
 
         if response.get("success"):
             self.__databaseName = newDatabaseName
 
         return response
+
+    def getCollectionNames(self) -> list:
+        return list(self.__client._send(self.__SERVICE_NAME, "getCollectionNames", {"databaseName": self.__databaseName}))
+
+    def getCollection(self, collectionName: str) -> collection.Collection:
+        return collection.Collection(
+            self.__client, self.__databaseName, collectionName)
 
     def drop(self) -> dict:
         return dict(self.__client._send(self.__SERVICE_NAME, "drop", {"databaseName": self.__databaseName}))

@@ -19,21 +19,14 @@ public class Collection {
         this.client = client;
         this.databaseName = databaseName;
         this.collectionName = collectionName;
+    }
 
-        Map<String, Object> parameters = new HashMap<>();
-
-        parameters.put("databaseName", databaseName);
-        parameters.put("collectionName", collectionName);
-
-        boolean collectionIsExist = (boolean) new ObjectMapper().readValue(
-                client.send(SERVICE_NAME, "isExist", parameters), Boolean.class);
-
-        if (!collectionIsExist)
-            client.send(SERVICE_NAME, "createCollection", parameters);
+    public String getName() {
+        return collectionName;
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, Object> setCollectionName(String newCollectionName) throws Exception {
+    public Map<String, Object> setName(String newCollectionName) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("databaseName", databaseName);
@@ -42,10 +35,10 @@ public class Collection {
 
         Map<String, Object> response = new HashMap<>();
 
-        response = (Map<String, Object>) new ObjectMapper().readValue(client.send(SERVICE_NAME, "setCollectionName",
+        response = (Map<String, Object>) new ObjectMapper().readValue(client.send(SERVICE_NAME, "setName",
                 parameters), response.getClass());
 
-        if ((int) response.get("success") == 1)
+        if ((boolean) response.get("success"))
             collectionName = newCollectionName;
 
         return response;
@@ -221,6 +214,6 @@ public class Collection {
 
     @Override
     public String toString() {
-        return String.format("Database Name -> %s\nCollection Name -> %s", databaseName, collectionName);
+        return String.format("%s.%s", databaseName, collectionName);
     }
 }

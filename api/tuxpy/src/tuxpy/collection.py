@@ -10,15 +10,11 @@ class Collection:
         self.__databaseName = databaseName
         self.__collectionName = collectionName
 
-        collectionIsExist = bool(self.__client._send(self.__SERVICE_NAME, "isExist", {
-                                 "databaseName": databaseName, "collectionName": collectionName}))
+    def getName(self) -> str:
+        return self.__collectionName
 
-        if not collectionIsExist:
-            client._send(self.__SERVICE_NAME, "createCollection", {
-                         "databaseName": databaseName, "collectionName": collectionName})
-
-    def setCollectionName(self, newCollectionName: str) -> dict:
-        response = dict(self.__client._send(self.__SERVICE_NAME, "setCollectionName", {
+    def setName(self, newCollectionName: str) -> dict:
+        response = dict(self.__client._send(self.__SERVICE_NAME, "setName", {
                         "databaseName": self.__databaseName, "collectionName": self.__collectionName, "newCollectionName": newCollectionName}))
 
         if response.get("success"):
@@ -57,4 +53,4 @@ class Collection:
         return dict(self.__client._send(self.__SERVICE_NAME, "drop", {"databaseName": self.__databaseName, "collectionName": self.__collectionName}))
 
     def __str__(self) -> str:
-        return f"Database Name -> {self.__databaseName}\nCollection Name -> {self.__collectionName}"
+        return f"{self.__databaseName}.{self.__collectionName}"

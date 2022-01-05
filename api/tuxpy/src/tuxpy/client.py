@@ -14,6 +14,3 @@ class Client:
         from . import database
 
         return database.Database(self, databaseName)
-
-    def getDatabaseNames(self) -> list:
-        return list(self._send("database", "getDatabaseNames", []))

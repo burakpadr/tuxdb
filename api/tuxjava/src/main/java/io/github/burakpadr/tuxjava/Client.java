@@ -3,12 +3,8 @@ package io.github.burakpadr.tuxjava;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.IOUtils;
@@ -57,15 +53,5 @@ public class Client {
 
     public Database getDatabase(String databaseName) throws Exception {
         return new Database(this, databaseName);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<String> getDatabaseNames() throws IOException {
-        List<String> response = new ArrayList<>();
-
-        response = (List<String>) new ObjectMapper().readValue(send("database", "getDatabaseNames", new HashMap<>()),
-                response.getClass());
-
-        return response;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.burakpadr.tuxjava;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,20 +18,43 @@ public class Database {
     public Database(Client client, String databaseName) throws Exception {
         this.client = client;
         this.databaseName = databaseName;
-
-        Map<String, Object> parameters = new HashMap<>();
-
-        parameters.put("databaseName", databaseName);
-
-        boolean databaseIsExist = (boolean) new ObjectMapper()
-                .readValue(client.send(SERVICE_NAME, "isExist", parameters), Boolean.class);
-
-        if (!databaseIsExist)
-            client.send(SERVICE_NAME, "createDatabase", parameters);
     }
 
     public Collection getCollection(String collectionName) throws Exception {
         return new Collection(client, databaseName, collectionName);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getDatabaseNames() throws IOException {
+        List<String> response = new ArrayList<>();
+
+        response = (List<String>) new ObjectMapper().readValue(client.send(SERVICE_NAME, "getDatabaseNames", new HashMap<>()),
+                response.getClass());
+
+        return response;
+    }
+
+    public String getName() {
+        return databaseName;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> setName(String newDatabaseName) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("databaseName", databaseName);
+        parameters.put("newDatabaseName", newDatabaseName);
+
+        response = (Map<String, Object>) new ObjectMapper().readValue(
+                client.send(SERVICE_NAME, "setName", parameters),
+                response.getClass());
+
+        if ((boolean) response.get("success"))
+            databaseName = newDatabaseName;
+
+        return response;
     }
 
     @SuppressWarnings("unchecked")
@@ -46,25 +70,6 @@ public class Database {
                 collectionNames.getClass());
 
         return collectionNames;
-    }
-
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> setDatabaseName(String newDatabaseName) throws Exception {
-        Map<String, Object> response = new HashMap<>();
-
-        Map<String, Object> parameters = new HashMap<>();
-
-        parameters.put("databaseName", databaseName);
-        parameters.put("newDatabaseName", newDatabaseName);
-
-        response = (Map<String, Object>) new ObjectMapper().readValue(
-                client.send(SERVICE_NAME, "setDatabaseName", parameters),
-                response.getClass());
-
-        if ((int) response.get("success") == 1)
-            databaseName = newDatabaseName;
-
-        return response;
     }
 
     @SuppressWarnings("unchecked")
